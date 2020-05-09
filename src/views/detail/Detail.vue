@@ -1,7 +1,7 @@
 <!--  -->
 <template>
  <div class="Detail">
-  <detail-nav-bar></detail-nav-bar>
+  <detail-nav-bar ref="detailNavBar" @whatTag="goTo"></detail-nav-bar>
   <b-scroll
    v-if="isShowDetail"
    :pullUpLoad="true"
@@ -35,7 +35,10 @@
    @click.native="backTop"
    class="backTop"
   ></back-top>
-  <div class="test"></div>
+  <detail-bottom-bar
+   @addToCart="addToCart"
+   @buyNow="buyNow"
+  ></detail-bottom-bar>
  </div>
 </template>
 
@@ -48,7 +51,7 @@ import DetailInfo from 'views/detail/DetailInfo'
 import DetailStoreInfo from 'views/detail/DetailStoreInfo'
 import DetailComment from 'views/detail/DetailComment'
 import DetailDisplayInfo from 'views/detail/DetailDisplayInfo'
-
+import DetailBottomBar from 'views/detail/DetailBottomBar'
 import BackTop from 'components/common/backtop/BackTop'
 import GoodsList from 'components/this/goods/GoodsList'
 import { getDetail } from 'Axios/detail'
@@ -67,7 +70,8 @@ export default {
   DetailInfo,
   DetailStoreInfo,
   DetailComment,
-  DetailDisplayInfo
+  DetailDisplayInfo,
+  DetailBottomBar
  },
  props: {},
  data() {
@@ -87,11 +91,14 @@ export default {
     list: []
    },
    currentPosition: 0,
-   showBackTop: false
+   showBackTop: false,
+   DetailNavBarIndex: 0,
+   distanceOfParent: []
   }
  },
  //监听属性 类似于data概念
  computed: {
+  //推荐页商品信息
   showGoods() {
    return this.goods.list
   }
@@ -108,20 +115,38 @@ export default {
  },
  //方法集合
  methods: {
+  //加入购物车
+  addToCart() {
+   const commodityInfo = {}
+   commodityInfo.image = this.topImages[0]
+   commodityInfo.title = this.titleInfo.title
+   commodityInfo.currentPrice = this.titleInfo.currentPrice
+   commodityInfo.oldPrice = this.titleInfo.price
+   commodityInfo.id = this.id
+   this.$store.dispatch('addToCart', commodityInfo).then(res => {
+    //提示加入购物车成功
+    res ? this.$toast.toast('加入购物车成功') : {}
+   })
+  },
+  //立即购买
+  buyNow() {
+   console.log(this.$store.state.cartList)
+  },
   //返回顶部
   backTop() {
    this.$refs.detailScroll.scrollTo(0, 0)
   },
   //当前滑动到位置
   getCurrentPosition(position) {
-   position.y < -this.$refs.detailDisplayInfo.$el.offsetTop
-    ? (this.showBackTop = true)
-    : (this.showBackTop = false)
+   this.currentPosition = position
+   //防抖提取
+   this.debounce(position)
   },
   //上拉加载更多
   loadMoreGoods() {
    this.getDetailGoods()
   },
+  //销毁dom 更新数据后重新创建dom
   reload() {
    this.isShowDetail = false
    this.$nextTick(() => {
@@ -131,34 +156,9 @@ export default {
   },
   //跳转至页面内对应位置
   goTo(index) {
-   switch (index) {
-    case 0:
-     this.$refs.detailScroll.scrollTo(0, 0, 500)
-     break
-    case 1:
-     this.$refs.detailScroll.scrollTo(
-      0,
-      -this.$refs.detailDisplayInfo.$el.offsetTop,
-      500
-     )
-     break
-    case 2:
-     this.$refs.detailScroll.scrollTo(
-      0,
-      -this.$refs.detailComment.$el.offsetTop,
-      500
-     )
-     break
-    case 3:
-     this.$refs.detailScroll.scrollTo(
-      0,
-      -this.$refs.detailGoodsList.$el.offsetTop,
-      500
-     )
-     break
-   }
+   this.$refs.detailScroll.scrollTo(0, this.distanceOfParent[index], 500)
   },
-  //获取数据
+  //获取推荐页数据
   getDetailGoods(type, page) {
    type = 'sell'
    page = this.goods.page + 1
@@ -198,16 +198,45 @@ export default {
  },
  //生命周期 - 挂载完成（可以访问DOM元素）
  mounted() {
+  // 防抖封装监听图片加载完成事件触发
   let refresh = debounce(this.$refs.detailScroll.loaded)
-  this.refresh = () => {
-   refresh()
-  }
+  let distanceOfParent = debounce(() => {
+   //获取子组件到父组件（scroll）的距离
+   if (this.distanceOfParent.length === 0) {
+    this.distanceOfParent.push(0)
+    this.distanceOfParent.push(-this.$refs.detailComment.$el.offsetTop)
+    this.distanceOfParent.push(-this.$refs.detailDisplayInfo.$el.offsetTop)
+    this.distanceOfParent.push(-this.$refs.detailGoodsList.$el.offsetTop)
+    this.distanceOfParent.push(-Number.MAX_VALUE)
+   }
+  })
+  //监听图片加载完成
   this.$bus.$on(this.goodsListItemImageLoaded, () => {
-   this.refresh()
+   //刷新scroll
+   refresh()
+   distanceOfParent()
   })
-  this.$bus.$on('whatTag', index => {
-   this.goTo(index)
-  })
+  ////用防抖函数封装滚动事件触发
+  this.debounce = debounce(position => {
+   //距离顶部一定位置后显示backtop
+   position.y <= -this.$refs.detailDisplayInfo.$el.offsetTop
+    ? (this.showBackTop = true)
+    : (this.showBackTop = false)
+   //滚动到一定位置更新navbar索引
+   let length = this.distanceOfParent.length - 1
+   if (position.y <= 0) {
+    for (let i = 0; i < length; i++) {
+     if (
+      this.$refs.detailNavBar.currentIndex !== i &&
+      position.y <= this.distanceOfParent[i] &&
+      position.y > this.distanceOfParent[i + 1]
+     ) {
+      this.DetailNavBarIndex = i
+      this.$refs.detailNavBar.currentIndex = this.DetailNavBarIndex
+     }
+    }
+   }
+  }, 50)
  },
  beforeCreate() {}, //生命周期 - 创建之前
  beforeMount() {}, //生命周期 - 挂载之前
@@ -219,7 +248,7 @@ export default {
   // this.id === this.$route.params.id ? {} : this.getDetail()
  }, //如果页面有keep-alive缓存功能，这个函数会触发
  deactivated() {
-  this.$bus.$off(this.goodsListItemImageLoaded, this.refresh)
+  // this.$bus.$off(this.goodsListItemImageLoaded, this.refresh)
  }
 }
 </script>
@@ -233,15 +262,6 @@ export default {
  left: 0;
  right: 0;
  bottom: 49px;
-}
-.test {
- position: fixed;
- height: 49px;
- bottom: 0;
- left: 0;
- right: 0;
- background-color: white;
- z-index: 99;
 }
 /* @import url(); 引入公共css类'*/
 </style>

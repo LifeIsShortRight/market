@@ -3,11 +3,11 @@
  <div v-if="Info" class="DetailInfo">
   <div class="title">{{ Info.title }}</div>
   <div class="priceInfo">
-   <span class="currentPrice">￥{{ Info.currentPrice }}</span>
+   <span class="currentPrice"><span>￥</span>{{ Info.currentPrice }}</span>
    <span class="price"
-    ><del>￥{{ Info.price }}</del></span
+    ><del><span>￥</span>{{ Info.price }}</del></span
    >
-   <span class="eventInfo" v-if="Info.eventInfo">今日特价</span>
+   <span class="eventInfo" v-if="Info.isEventInfo">{{ Info.eventInfo }}折</span>
   </div>
   <div class="sellInfo">
    <span class="sellQuantity">销量&nbsp;{{ Info.sellQuantity }}</span>
@@ -70,6 +70,9 @@ export default {
 .priceInfo {
  padding: 10px 20px;
 }
+.priceInfo span span {
+ font-size: 0.85em;
+}
 .currentPrice {
  font-size: 2em;
  color: lightcoral;
@@ -80,11 +83,13 @@ export default {
  color: rgba(0, 0, 0, 0.5);
 }
 .eventInfo {
+ font-size: 0.85em;
  text-align: center;
  vertical-align: top;
- border-radius: 7px;
+ border-radius: 5px;
+ padding: 0.5%;
  color: whitesmoke;
- background-color: lightcoral;
+ background-color: #ff5777;
 }
 .sellInfo {
  padding: 5px;

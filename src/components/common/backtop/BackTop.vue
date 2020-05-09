@@ -40,10 +40,11 @@ export default {
 <style scoped>
 .BackTop {
  position: fixed;
- right: 5px;
+ right: -5px;
  bottom: 55px;
- background-color: whitesmoke;
- border-radius: 5px;
+}
+img {
+ max-width: 75%;
 }
 /* @import url(); 引入公共css类'*/
 </style>

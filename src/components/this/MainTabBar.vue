@@ -2,23 +2,23 @@
  <div>
   <TabBar>
    <TabBarItem path="/Home">
-    <img slot="icon" src="~assets/img/tabbar/home.svg" />
-    <img slot="icon_active" src="~assets/img/tabbar/home_active.svg" />
+    <img slot="icon" src="~assets/img/tabbar/home.png" />
+    <img slot="icon_active" src="~assets/img/tabbar/home_active.png" />
    </TabBarItem>
    <TabBarItem path="/Classification">
-    <img slot="icon" src="~assets/img/tabbar/classification.svg" />
+    <img slot="icon" src="~assets/img/tabbar/classification.png" />
     <img
      slot="icon_active"
-     src="~assets/img/tabbar/classification_active.svg"
+     src="~assets/img/tabbar/classification_active.png"
     />
    </TabBarItem>
    <TabBarItem path="/Cart">
-    <img slot="icon" src="~assets/img/tabbar/cart.svg" />
-    <img slot="icon_active" src="~assets/img/tabbar/cart_active.svg" />
+    <img slot="icon" src="~assets/img/tabbar/cart.png" />
+    <img slot="icon_active" src="~assets/img/tabbar/cart_active.png" />
    </TabBarItem>
    <TabBarItem path="/Profile">
-    <img slot="icon" src="~assets/img/tabbar/profile.svg" />
-    <img slot="icon_active" src="~assets/img/tabbar/profile_active.svg" />
+    <img slot="icon" src="~assets/img/tabbar/profile.png" />
+    <img slot="icon_active" src="~assets/img/tabbar/profile_active.png" />
    </TabBarItem>
   </TabBar>
  </div>

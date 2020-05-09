@@ -62,7 +62,7 @@ export default {
  },
  created() {},
  mounted() {
-  this.init = debounce(this.initPreparation, 0)
+  this.init = debounce(this.initPreparation)
   /* mounted阶段dom渲染完，延迟确保刷新 */
   // setTimeout(() => {
   //  this.init()
@@ -70,9 +70,9 @@ export default {
  },
  methods: {
   initPreparation() {
-   this.dots = this.carouselData.length //初始化小白点个数
    this.setSliderWidth() //初始化宽度
    this.initSlider() //初始化betterscroll
+   this.dots = this.carouselData.length //初始化小白点个数
    if (this.isAutoPlay) {
     //如果设置自动播放 开启播放
     this.autoPlay()

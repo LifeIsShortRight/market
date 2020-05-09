@@ -31,7 +31,7 @@ export default {
  data() {
   //这里存放数据
   return {
-   titles: ['商品', '参数', '评论', '推荐'],
+   titles: ['商品', '评论', '参数', '推荐'],
    currentIndex: 0
   }
  },
@@ -46,7 +46,7 @@ export default {
   },
   current(index) {
    this.currentIndex = index
-   this.$bus.$emit('whatTag', index)
+   this.$emit('whatTag', index)
   }
  },
  //生命周期 - 创建完成（可以访问当前this实例）

@@ -3,7 +3,7 @@
  <div class="GoodsListItem" @click="pathTo">
   <div class="GoodsListItem-div">
    <!-- <a :href="goodsItem.link"> -->
-   <img :src="goodsItem.image" @load="loaded" />
+   <img v-lazy="goodsItem.image" @load="loaded" />
    <p>{{ goodsItem.title }}</p>
    <!-- </a> -->
   </div>

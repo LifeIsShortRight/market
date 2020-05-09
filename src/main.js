@@ -1,8 +1,20 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from 'router/index'
-
+import store from 'store/index'
+import toast from 'components/common/toast/index'
+import FastClick from 'fastclick'
+import LazyLoad from 'vue-lazyload'
+//安装吐司
+Vue.use(toast)
+//安装懒加载
+Vue.use(LazyLoad, {
+  loadding: require('assets/img/loading/loading.png'),
+  error: require('assets/img/loading/loading.png')
+})
 Vue.config.productionTip = false
+//解决移动端300ms点击延迟
+FastClick.attach(document.body)
 Vue.prototype.$bus = new Vue()
 //时间格式化函数
 Date.prototype.format = function (format) {
@@ -21,5 +33,6 @@ Date.prototype.format = function (format) {
 }
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')
