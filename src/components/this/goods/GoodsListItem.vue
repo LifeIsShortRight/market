@@ -3,8 +3,17 @@
  <div class="GoodsListItem" @click="pathTo">
   <div class="GoodsListItem-div">
    <!-- <a :href="goodsItem.link"> -->
-   <img v-lazy="goodsItem.image" @load="loaded" />
-   <p>{{ goodsItem.title }}</p>
+   <div class="img">
+    <img v-lazy="goodsItem.image" @load="loaded" />
+    <div class="sellQuantity">已销售{{ goodsItem.sellQuantity }}件</div>
+   </div>
+   <div class="title">{{ goodsItem.title }}我是超出的标题</div>
+   <div class="price">
+    ￥{{ goodsItem.price
+    }}<span class="oldPrice"
+     ><del>￥{{ goodsItem.oldPrice }}</del></span
+    >
+   </div>
    <!-- </a> -->
   </div>
  </div>
@@ -20,9 +29,9 @@ export default {
  components: {},
  props: {
   goodsItem: null,
-  goodsListItemImageLoaded: {
+  imageLoaded: {
    type: String,
-   default: 'goodsListItemImageLoaded'
+   default: 'imageLoaded'
   }
  },
  data() {
@@ -39,13 +48,14 @@ export default {
    this.$router.push('/Detail' + this.goodsItem['id'])
   },
   loaded() {
-   this.$bus.$emit(this.goodsListItemImageLoaded)
+   this.$bus.$emit(this.imageLoaded)
   }
  },
  //生命周期 - 创建完成（可以访问当前this实例）
  created() {},
  //生命周期 - 挂载完成（可以访问DOM元素）
- mounted() {},
+ mounted() {
+ },
  beforeCreate() {}, //生命周期 - 创建之前
  beforeMount() {}, //生命周期 - 挂载之前
  beforeUpdate() {}, //生命周期 - 更新之前
@@ -60,11 +70,12 @@ export default {
  width: 45%;
  margin: 0;
  padding-left: 3%;
- margin-bottom: 5%;
+ margin-bottom: 3%;
  text-align: center;
  font-size: 12px;
 }
 .GoodsListItem .GoodsListItem-div {
+ width: 100%;
  margin: 0;
  padding: 0;
 }
@@ -77,11 +88,36 @@ export default {
  margin: 0 auto;
  border-radius: 5px;
 }
-.GoodsListItem .GoodsListItem-div p {
+.GoodsListItem .GoodsListItem-div .title {
  background-color: white;
  overflow: hidden;
+ white-space: nowrap;
  text-overflow: ellipsis;
+ padding-bottom: 3%;
 }
-
+.price {
+ font-size: 16px;
+ color: #ff5777;
+}
+.oldPrice {
+ font-size: 13px;
+ color: rgba(0, 0, 0, 0.5);
+}
+.img {
+ position: relative;
+}
+.sellQuantity {
+ position: absolute;
+ left: 0;
+ top: 85%;
+ padding: 4% 5%;
+ font-size: 11px;
+ color: white;
+ background-image: linear-gradient(
+  to right,
+  rgba(0, 0, 0, 0.5),
+  rgba(0, 0, 0, 0.05)
+ );
+}
 /* @import url(); 引入公共css类'*/
 </style>

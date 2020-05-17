@@ -4,13 +4,15 @@ import router from 'router/index'
 import store from 'store/index'
 import toast from 'components/common/toast/index'
 import FastClick from 'fastclick'
-import LazyLoad from 'vue-lazyload'
+import VueLazyLoad from 'vue-lazyload'
 //安装吐司
 Vue.use(toast)
 //安装懒加载
-Vue.use(LazyLoad, {
-  loadding: require('assets/img/loading/loading.png'),
-  error: require('assets/img/loading/loading.png')
+Vue.use(VueLazyLoad, {
+  preLoad: 1.3,
+  error: require('assets/img/loading/carousel.png'),
+  loading: require('assets/img/loading/goods.png'),
+  attempt: 1
 })
 Vue.config.productionTip = false
 //解决移动端300ms点击延迟

@@ -2,15 +2,16 @@
 <template>
  <div class="GoodsList">
   <slot name="top"></slot>
-  <div class="list">
+  <div v-if="goods" class="list">
    <goods-list-item
     class=""
     :goodsItem="item"
-    :goodsListItemImageLoaded="goodsListItemImageLoaded"
+    :imageLoaded="imageLoaded"
     v-for="(item, index) in goods"
     :key="index"
    />
   </div>
+  <div style="text-align:center;" v-else>~~~~~~~~空空如也~~~~~~~~</div>
   <slot name="bottom"></slot>
  </div>
 </template>
@@ -26,15 +27,10 @@ export default {
   GoodsListItem
  },
  props: {
-  goods: {
-   type: Array,
-   default() {
-    return []
-   }
-  },
-  goodsListItemImageLoaded: {
+  goods: null,
+  imageLoaded: {
    type: String,
-   default: 'goodsListItemImageLoaded'
+   default: 'imageLoaded'
   }
  },
  data() {
@@ -56,7 +52,6 @@ export default {
    if (Number(index) <= 1) {
     return true
    }
-   console.log(index)
   }
  },
  //生命周期 - 创建完成（可以访问当前this实例）

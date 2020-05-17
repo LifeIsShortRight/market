@@ -42,6 +42,7 @@ export default {
  position: fixed;
  right: -5px;
  bottom: 55px;
+ z-index: 9;
 }
 img {
  max-width: 75%;

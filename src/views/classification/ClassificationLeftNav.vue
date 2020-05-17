@@ -1,14 +1,16 @@
 <!--  -->
 <template>
- <div class="TabControl">
+ <div class="LeftNav">
   <div
-   class="TabControl-item"
+   @click="getCurrentIndex(index)"
+   class="content"
+   :class="{ contentActive: index === currentIndex }"
    v-for="(item, index) in titleData"
    :key="index"
-   :class="{ active: index === currentIndex }"
-   @click="actived(index)"
   >
-   <span>{{ item }}</span>
+   <div :class="{ itemActive: index === currentIndex }" class="item">
+    {{ item }}
+   </div>
   </div>
  </div>
 </template>
@@ -19,15 +21,10 @@
 
 export default {
  //import引入的组件需要注入到对象中才能使用
- name: 'TabControl',
+ name: 'LeftNav',
  components: {},
  props: {
-  titleData: {
-   type: Array,
-   default() {
-    return []
-   }
-  }
+  titleData: null
  },
  data() {
   //这里存放数据
@@ -41,9 +38,9 @@ export default {
  watch: {},
  //方法集合
  methods: {
-  actived(index) {
+  getCurrentIndex(index) {
    this.currentIndex = index
-   this.$emit('tabClick', index)
+   this.$emit('currentIndex', index)
   }
  },
  //生命周期 - 创建完成（可以访问当前this实例）
@@ -60,18 +57,29 @@ export default {
 }
 </script>
 <style scoped>
-.TabControl {
- background-color: white;
- display: flex;
+.LeftNav {
+ font-size: 14px;
+ background-color: #f1f1f1;
+}
+.content {
+ flex: 1;
+ padding: 15px 0;
+
  text-align: center;
 }
-.TabControl .TabControl-item {
- flex: 1;
- height: 36px;
- font-size: 15px;
+.content .item {
+ width: 56px;
+ padding: 0 15px 0 5px;
+ /* padding-left: 5px;
+ padding-right: 15px; */
 }
-.active span {
- color: lightcoral;
+.contentActive {
+ background-color: white;
 }
-/* @import url(); 引入公共css类'*/
+.itemActive {
+ color: #ff5777;
+ background-color: white;
+ font-weight: bold;
+ border-left: 3px solid #ff5777;
+} /* @import url(); 引入公共css类'*/
 </style>

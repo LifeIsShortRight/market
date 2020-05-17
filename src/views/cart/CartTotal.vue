@@ -24,7 +24,9 @@ export default {
  props: {},
  data() {
   //这里存放数据
-  return {}
+  return {
+   isAllSelect: false
+  }
  },
  //监听属性 类似于data概念
  computed: {
@@ -38,7 +40,8 @@ export default {
    this.$emit('payClick', this.selectedCommodityQuantity)
   },
   allSelect() {
-   this.$store.commit(ALL_SELECT)
+   this.$store.commit(ALL_SELECT, this.isAllSelect)
+   this.isAllSelect = !this.isAllSelect
   }
  },
  //生命周期 - 创建完成（可以访问当前this实例）

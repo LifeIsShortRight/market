@@ -38,11 +38,7 @@
      </tab-control>
     </div>
     <div class="goodslist">
-     <goods-list
-      :goodsListItemImageLoaded="goodsListItemImageLoaded"
-      :goods="showGoods"
-     >
-     </goods-list>
+     <goods-list :imageLoaded="imageLoaded" :goods="showGoods"> </goods-list>
     </div>
    </b-scroll>
    <div v-show="backTopShow" @click="backTop">
@@ -77,10 +73,10 @@ export default {
  },
  data() {
   return {
-   goodsListItemImageLoaded: 'homeGoodsLoaded',
+   imageLoaded: 'homeGoodsLoaded',
    carouselData: null,
    topsData: null,
-   titleData: null,
+   titleData: ['流行', '新款', '精品'],
    currentType: 'pop',
    backTopShow: false,
    isShowTabControl2: false,
@@ -164,7 +160,7 @@ export default {
    getHomeGoods(type, page)
     .then(res => {
      if (res[type] != null) {
-      this.titleData = res.titleData
+      // this.titleData = res.titleData
       this.goods[type].page = page
       this.goods[type].list.push(...res[type])
      } else {
@@ -184,7 +180,7 @@ export default {
   this.refresh = () => {
    refresh()
   }
-  this.$bus.$on(this.goodsListItemImageLoaded, () => {
+  this.$bus.$on(this.imageLoaded, () => {
    this.refresh()
   })
   // new BtterScroll(document.querySelector('.goodslist'))
@@ -197,7 +193,7 @@ export default {
   //保存离开时的y轴坐标
   this.saveY = this.$refs.scroll.scroll.y
   //离开时关闭全局事件监听
-  // this.$bus.$off(this.goodsListItemImageLoaded, this.refresh)
+  // this.$bus.$off(this.imageLoaded, this.refresh)
  },
  updated() {}
 }
@@ -217,10 +213,7 @@ export default {
  padding-bottom: 49px;
 } */
 .home .home-nav {
- position: fixed;
- left: 0;
- right: 0;
- top: 0;
+ position: relative;
  z-index: 9;
  background-color: lightcoral;
  color: white;

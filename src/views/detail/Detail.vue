@@ -24,7 +24,7 @@
 
    <goods-list
     ref="detailGoodsList"
-    :goodsListItemImageLoaded="goodsListItemImageLoaded"
+    :imageLoaded="imageLoaded"
     :goods="showGoods"
    >
     <div slot="top">这里是推荐啊</div>
@@ -77,7 +77,7 @@ export default {
  data() {
   //这里存放数据
   return {
-   goodsListItemImageLoaded: 'detailGoodsLoaded',
+   imageLoaded: 'detailGoodsLoaded',
    isShowDetail: true,
    id: null,
    oId: null,
@@ -211,7 +211,7 @@ export default {
    }
   })
   //监听图片加载完成
-  this.$bus.$on(this.goodsListItemImageLoaded, () => {
+  this.$bus.$on(this.imageLoaded, () => {
    //刷新scroll
    refresh()
    distanceOfParent()
@@ -248,7 +248,7 @@ export default {
   // this.id === this.$route.params.id ? {} : this.getDetail()
  }, //如果页面有keep-alive缓存功能，这个函数会触发
  deactivated() {
-  // this.$bus.$off(this.goodsListItemImageLoaded, this.refresh)
+  // this.$bus.$off(this.imageLoaded, this.refresh)
  }
 }
 </script>

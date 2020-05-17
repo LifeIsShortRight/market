@@ -8,8 +8,10 @@ Vue.use(Router)
 const Home = () => import("views/home/Home")
 const Classification = () => import("views/classification/Classification")
 const Cart = () => import("views/cart/Cart")
-const Profile = () => import("views/profile/Profile")
 const Detail = () => import("views/detail/Detail")
+const Profile = () => import("views/profile/Profile")
+const Login = () => import("views/profile/Login")
+const Register = () => import("views/profile/Register")
 Vue.use(Router)
 //解决双击路由报错
 const routerPush = Router.prototype.push;
@@ -40,12 +42,20 @@ const routes = [
   },
   {
     path: "/Profile",
-    component: Profile
+    component: Profile,
   },
   {
     path: "/Detail:id",
     component: Detail
-  }
+  },
+  {
+    path: "/Login",
+    component: Login
+  },
+  {
+    path: "/Register",
+    component: Register
+  },
 ];
 
 export default new Router({

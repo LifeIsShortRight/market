@@ -62,7 +62,7 @@ export default {
     sliderContentWidth += sliderWidth
    }
    this.$refs.sliderContent.style.width =
-    sliderContentWidth * 0.7 + this.children.length * 20 + 'px'
+    sliderContentWidth * 0.7 + this.children.length * 21 + 'px'
   },
   //初始化betterscroll
   initSlider() {

@@ -34,7 +34,8 @@ export default {
   return {
    currentPageIndex: 0,
    dots: 0,
-   isFirstLoad: true
+   isFirstLoad: true,
+   isShow: false
   }
  },
  props: {

@@ -26,9 +26,9 @@ export default {
     // state.cartList[payload].isSelect = !state.cartList[payload].isSelect
   },
   //选择所有商品
-  [ALL_SELECT](state) {
+  [ALL_SELECT](state, payload) {
     for (let item of state.cartList) {
-      item.isSelect = !item.isSelect
+      payload === false ? item.isSelect = true : item.isSelect = false
     }
   }
 

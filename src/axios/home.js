@@ -1,4 +1,4 @@
-import { request } from 'Axios/request'
+import { request } from './request'
 
 
 export function getHomeMutidata() {
