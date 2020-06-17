@@ -105,6 +105,13 @@ export default {
 }
 </script>
 <style scoped>
+.Register {
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 49px;
+}
 .submit {
  width: 25%;
  margin: 0 35.5%;
@@ -169,6 +176,12 @@ export default {
 .tips span {
  color: rgba(0, 0, 0, 0.75);
 }
+.other {
+ position: absolute;
+ left: 0;
+ right: 0;
+ bottom: 0;
+}
 .otherLogin {
  display: flex;
 }
@@ -180,6 +193,11 @@ export default {
  color: white;
 }
 .body {
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 49px;
  text-align: center;
  margin-top: 30%;
  margin-bottom: 5%;

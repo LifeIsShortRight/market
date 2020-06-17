@@ -1,9 +1,8 @@
 import axios from "axios"
-
 export function request(config) {
   //创建axios实例
   const instance = axios.create({
-    baseURL: 'http://192.168.1.101',
+    baseURL: "http://192.168.1.104",
     timeout: 30000,
   })
   //拦截并处理请求
